@@ -90,6 +90,7 @@ namespace Microsoft.Quantum.IQSharp
                         ["logo-64x64.png"] = "Microsoft.Quantum.IQSharp.Kernel.res.logo-64x64.png",
                         ["kernel.js"] = "Microsoft.Quantum.IQSharp.Kernel.res.kernel.js",
                         ["telemetry.js"] = "Microsoft.Quantum.IQSharp.Kernel.res.telemetry.js",
+                        ["svg_circ.js"] = "Microsoft.Quantum.IQSharp.Kernel.res.svg_circ.js",
                     }
                 );
                 app.Command(

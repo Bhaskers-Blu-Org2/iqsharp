@@ -7,7 +7,7 @@
     "target": "ES5",
     "baseUrl": ".",
     "outDir": "res",
-    "lib": [ "DOM", "ES2015" ],
+    "lib": [ "DOM", "ES2019" ],
     "module": "AMD"
   },
   "exclude": ["node_modules", "wwwroot"],
