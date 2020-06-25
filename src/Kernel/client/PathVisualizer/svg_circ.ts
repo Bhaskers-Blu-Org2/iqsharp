@@ -1,10 +1,10 @@
-import { formatInputs } from "./formatters/inputFormatter";
-import { formatGates } from "./formatters/gateFormatter";
-import { formatRegisters } from "./formatters/registerFormatter";
-import { processInstructions } from "./process";
-import { Program } from "./instruction";
-import { Metadata } from "./metadata";
-import { GateType } from "./constants";
+import { formatInputs } from "./formatters/inputFormatter.js";
+import { formatGates } from "./formatters/gateFormatter.js";
+import { formatRegisters } from "./formatters/registerFormatter.js";
+import { processInstructions } from "./process.js";
+import { Program } from "./instruction.js";
+import { Metadata } from "./metadata.js";
+import { GateType } from "./constants.js";
 
 const script = `
 <script type="text/JavaScript">
@@ -93,38 +93,39 @@ const style = `
 </style>
 `;
 
-/**
- * Converts JSON representing a circuit from the simulator and returns its SVG representation.
- * 
- * @param json JSON received from simulator.
- * 
- * @returns SVG representation of circuit.
- */
-const jsonToSvg = (json: Program): string => {
-    const { qubits, instructions } = json;
-    const { qubitWires, registers, svgHeight } = formatInputs(qubits);
-    const { metadataList, svgWidth } = processInstructions(instructions, registers);
-    const formattedGates: string = formatGates(metadataList);
-    const measureGates: Metadata[] = metadataList.filter(({ type }) => type === GateType.Measure);
-    const formattedRegs: string = formatRegisters(registers, measureGates, svgWidth);
-    let svg: string = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${svgWidth}" height="${svgHeight}">`;
-    svg += script;
-    svg += style;
-    svg += qubitWires;
-    svg += formattedRegs;
-    svg += formattedGates;
-    svg += '</svg>';
-    return svg;
-};
+export class JsonToHtmlEncoder {
+    /**
+     * Converts JSON representing a circuit from the simulator and returns its SVG representation.
+     * 
+     * @param json JSON received from simulator.
+     * 
+     * @returns SVG representation of circuit.
+     */
+    jsonToSvg = (json: Program): string => {
+        const { qubits, instructions } = json;
+        const { qubitWires, registers, svgHeight } = formatInputs(qubits);
+        const { metadataList, svgWidth } = processInstructions(instructions, registers);
+        const formattedGates: string = formatGates(metadataList);
+        const measureGates: Metadata[] = metadataList.filter(({ type }) => type === GateType.Measure);
+        const formattedRegs: string = formatRegisters(registers, measureGates, svgWidth);
+        let svg: string = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${svgWidth}" height="${svgHeight}">`;
+        svg += script;
+        svg += style;
+        svg += qubitWires;
+        svg += formattedRegs;
+        svg += formattedGates;
+        svg += '</svg>';
+        return svg;
+    };
 
-const jsonToHtml = (json: Program): string => {
-    const svg: string = jsonToSvg(json);
-    return '<html>\r\n' + svg + '</html>';
-};
+    jsonToHtml = (json: Program): string => {
+        const svg: string = this.jsonToSvg(json);
+        return '<html>\r\n' + svg + '</html>';
+    };
 
-console.log("SVG_CIRC");
-
-module.exports = {
-    jsonToSvg,
-    jsonToHtml,
+    render = (json: Program, id: string): void => {
+        const html = this.jsonToHtml(json);
+        const container = document.getElementById(id);
+        container.innerHTML = html;
+    };
 };

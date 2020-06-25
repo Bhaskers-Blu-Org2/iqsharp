@@ -67,10 +67,8 @@ namespace Microsoft.Quantum.IQSharp.Kernel
                 .WithStackTraceDisplay(channel)
                 .WithCircuitizer(circuitizer);
             var value = await symbol.Operation.RunAsync(qsim, args);
-            var program = circuitizer.GetProgram();
-            var json = program.ToJson();
-            Console.WriteLine(json);
-            return value.ToExecutionResult();
+            var program = circuitizer.GetExecutionPath();
+            return program.ToExecutionResult();
         }
     }
 }

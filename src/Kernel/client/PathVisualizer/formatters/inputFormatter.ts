@@ -1,11 +1,11 @@
-import { Qubit } from "../instruction";
-import { RegisterType, RegisterMap, RegisterMetadata } from "../register";
+import { Qubit } from "../instruction.js";
+import { RegisterType, RegisterMap, RegisterMetadata } from "../register.js";
 import {
     leftPadding,
     startY,
     registerHeight,
     classicalRegHeight,
-} from "../constants";
+} from "../constants.js";
 
 /**
  * `formatInputs` takes in an array of Qubits and outputs the SVG string of formatted

@@ -5,7 +5,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-define(["require", "exports", "../constants"], function (require, exports, constants_1) {
+define(["require", "exports", "../constants.js"], function (require, exports, constants_js_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // Helper functions for basic SVG components
@@ -28,7 +28,7 @@ define(["require", "exports", "../constants"], function (require, exports, const
         return "<rect x=\"" + x + "\" y =\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" stroke=\"black\" fill=\"white\" stroke-width=\"1\"></rect>";
     };
     exports.text = function (text, x, y, fs) {
-        if (fs === void 0) { fs = constants_1.labelFontSize; }
+        if (fs === void 0) { fs = constants_js_1.labelFontSize; }
         return "<text font-size=\"" + fs + "\" font-family=\"Arial\" x=\"" + x + "\" y=\"" + y + "\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"black\">" + text + "</text>";
     };
     exports.arc = function (x, y, rx, ry) {

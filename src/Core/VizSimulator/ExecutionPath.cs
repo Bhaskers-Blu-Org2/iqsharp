@@ -3,9 +3,9 @@ using System.Text.Json;
 
 namespace Microsoft.Quantum.IQSharp
 {
-    public class Program
+    public class ExecutionPath
     {
-        public Program(QubitDeclaration[] qubits, Instruction[] instructions)
+        public ExecutionPath(QubitDeclaration[] qubits, Instruction[] instructions)
         {
             this.qubits = qubits;
             this.instructions = instructions;

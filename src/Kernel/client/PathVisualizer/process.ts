@@ -5,11 +5,11 @@ import {
     GateType,
     controlBtnOffset,
     classicalBoxPadding,
-} from "./constants";
-import { Instruction } from "./instruction";
-import { Metadata } from "./metadata";
-import { Register, RegisterMap, RegisterType } from "./register";
-import { getGateWidth } from "./utils";
+} from "./constants.js";
+import { Instruction } from "./instruction.js";
+import { Metadata } from "./metadata.js";
+import { Register, RegisterMap, RegisterType } from "./register.js";
+import { getGateWidth } from "./utils.js";
 
 /**
  * Takes in a list of instructions and maps them to `metadata` objects which

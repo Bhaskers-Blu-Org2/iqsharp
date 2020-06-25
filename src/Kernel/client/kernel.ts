@@ -8,6 +8,11 @@ import { IPython } from "./ipython";
 declare var IPython : IPython;
 
 import { Telemetry, ClientInfo } from "./telemetry.js";
+import { JsonToHtmlEncoder } from "./PathVisualizer/svg_circ.js";
+
+declare global {
+    interface Window { jsonToHtmlEncoder: JsonToHtmlEncoder; }
+}
 
 function defineQSharpMode() {
     console.log("Loading IQ# kernel-specific extension...");
@@ -229,6 +234,7 @@ class Kernel {
 export function onload() {
     defineQSharpMode();
     let kernel = new Kernel();
+    window.jsonToHtmlEncoder = new JsonToHtmlEncoder();
     console.log("Loaded IQ# kernel-specific extension!");
 }
 

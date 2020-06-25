@@ -1,4 +1,4 @@
-import { Metadata } from "../metadata";
+import { Metadata } from "../metadata.js";
 import {
     GateType,
     minGateWidth,
@@ -10,7 +10,7 @@ import {
     controlBtnOffset,
     classicalBoxPadding,
     classicalRegHeight,
-} from "../constants";
+} from "../constants.js";
 import {
     group,
     controlDot,
@@ -20,7 +20,7 @@ import {
     arc,
     dashedLine,
     dashedBox
-} from "./formatUtils";
+} from "./formatUtils.js";
 
 /**
  * Given an array of operations (in metadata format), return the SVG representation.

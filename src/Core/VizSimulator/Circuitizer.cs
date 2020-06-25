@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.IQSharp
 
         public Circuitizer(int depth = 1) => this.renderDepth = depth + 1;
 
-        public Program GetProgram()
+        public ExecutionPath GetExecutionPath()
         {
             var qubits = this.qubitRegisters.Keys
                 .OrderBy(k => k)
@@ -33,7 +33,7 @@ namespace Microsoft.Quantum.IQSharp
                 })
                 .ToArray();
 
-            return new Program(qubits, this.instructions.ToArray());
+            return new ExecutionPath(qubits, this.instructions.ToArray());
         }
 
         public void OnOperationStartHandler(ICallable operation, IApplyData arguments)

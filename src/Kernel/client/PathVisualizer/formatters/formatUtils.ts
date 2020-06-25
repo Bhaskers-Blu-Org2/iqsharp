@@ -1,4 +1,4 @@
-import { labelFontSize } from "../constants";
+import { labelFontSize } from "../constants.js";
 
 // Helper functions for basic SVG components
 export const group = (...svgElems: (string | string[])[]): string =>

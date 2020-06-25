@@ -1,4 +1,4 @@
-define(["require", "exports", "../constants", "./formatUtils"], function (require, exports, constants_1, formatUtils_1) {
+define(["require", "exports", "../constants.js", "./formatUtils.js"], function (require, exports, constants_js_1, formatUtils_js_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -20,7 +20,7 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
         // Render classical wires
         measureGates.forEach(function (_a) {
             var type = _a.type, x = _a.x, targetsY = _a.targetsY, controlsY = _a.controlsY;
-            if (type !== constants_1.GateType.Measure)
+            if (type !== constants_js_1.GateType.Measure)
                 return;
             var gateY = controlsY[0];
             targetsY.forEach(function (y) {
@@ -43,11 +43,11 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
     var _classicalRegister = function (startX, gateY, endX, wireY) {
         var wirePadding = 1;
         // Draw vertical lines
-        var vLine1 = formatUtils_1.line(startX + wirePadding, gateY, startX + wirePadding, wireY - wirePadding, 0.5);
-        var vLine2 = formatUtils_1.line(startX - wirePadding, gateY, startX - wirePadding, wireY + wirePadding, 0.5);
+        var vLine1 = formatUtils_js_1.line(startX + wirePadding, gateY, startX + wirePadding, wireY - wirePadding, 0.5);
+        var vLine2 = formatUtils_js_1.line(startX - wirePadding, gateY, startX - wirePadding, wireY + wirePadding, 0.5);
         // Draw horizontal lines
-        var hLine1 = formatUtils_1.line(startX + wirePadding, wireY - wirePadding, endX, wireY - wirePadding, 0.5);
-        var hLine2 = formatUtils_1.line(startX - wirePadding, wireY + wirePadding, endX, wireY + wirePadding, 0.5);
+        var hLine1 = formatUtils_js_1.line(startX + wirePadding, wireY - wirePadding, endX, wireY - wirePadding, 0.5);
+        var hLine2 = formatUtils_js_1.line(startX - wirePadding, wireY + wirePadding, endX, wireY + wirePadding, 0.5);
         var svg = [vLine1, vLine2, hLine1, hLine2].join('\n');
         return svg;
     };
@@ -65,8 +65,8 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
     var _qubitRegister = function (qId, endX, y, labelOffset) {
         if (labelOffset === void 0) { labelOffset = 16; }
         var labelY = y - labelOffset;
-        var wire = formatUtils_1.line(constants_1.regLineStart, y, endX, y);
-        var label = "<text x=\"" + constants_1.regLineStart + "\" y=\"" + labelY + "\" dominant-baseline=\"hanging\" text-anchor=\"start\" font-size=\"75%\">q" + qId + "</text>";
+        var wire = formatUtils_js_1.line(constants_js_1.regLineStart, y, endX, y);
+        var label = "<text x=\"" + constants_js_1.regLineStart + "\" y=\"" + labelY + "\" dominant-baseline=\"hanging\" text-anchor=\"start\" font-size=\"75%\">q" + qId + "</text>";
         var svg = [wire, label].join('\n');
         return svg;
     };

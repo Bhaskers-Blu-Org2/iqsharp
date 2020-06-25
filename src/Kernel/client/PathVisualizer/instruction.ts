@@ -1,4 +1,4 @@
-import { Register } from "./register";
+import { Register } from "./register.js";
 
 /**
  * Structure of JSON representation of Q# program.

@@ -1,12 +1,12 @@
-import { Metadata } from './metadata';
+import { Metadata } from './metadata.js';
 import {
     GateType,
     minGateWidth,
     labelPadding,
     labelFontSize,
     argsFontSize,
-} from './constants';
-import fontSizes from './fontSizes';
+} from './constants.js';
+import fontSizes from './fontSizes.js';
 
 /**
  * Calculate the width of a gate, given its metadata.

@@ -1,7 +1,7 @@
-import { RegisterMap } from "../register";
-import { regLineStart, GateType } from "../constants";
-import { Metadata } from "../metadata";
-import { line } from "./formatUtils";
+import { RegisterMap } from "../register.js";
+import { regLineStart, GateType } from "../constants.js";
+import { Metadata } from "../metadata.js";
+import { line } from "./formatUtils.js";
 
 /**
  * Generate the SVG representation of the qubit register wires in `registers` and the classical wires

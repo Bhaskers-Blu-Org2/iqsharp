@@ -5,7 +5,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-define(["require", "exports", "../constants", "./formatUtils"], function (require, exports, constants_1, formatUtils_1) {
+define(["require", "exports", "../constants.js", "./formatUtils.js"], function (require, exports, constants_js_1, formatUtils_js_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -30,19 +30,19 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
     var _formatGate = function (metadata) {
         var type = metadata.type, x = metadata.x, controlsY = metadata.controlsY, targetsY = metadata.targetsY, label = metadata.label, argStr = metadata.argStr, width = metadata.width;
         switch (type) {
-            case constants_1.GateType.Measure:
+            case constants_js_1.GateType.Measure:
                 return _measure(x, controlsY[0], targetsY[0]);
-            case constants_1.GateType.Unitary:
+            case constants_js_1.GateType.Unitary:
                 return _unitary(label, x, targetsY, width, argStr);
-            case constants_1.GateType.Swap:
+            case constants_js_1.GateType.Swap:
                 if (controlsY.length > 0)
                     return _controlledGate(metadata);
                 else
                     return _swap(x, targetsY);
-            case constants_1.GateType.Cnot:
-            case constants_1.GateType.ControlledUnitary:
+            case constants_js_1.GateType.Cnot:
+            case constants_js_1.GateType.ControlledUnitary:
                 return _controlledGate(metadata);
-            case constants_1.GateType.ClassicalControlled:
+            case constants_js_1.GateType.ClassicalControlled:
                 return _classicalControlled(metadata);
             default:
                 throw new Error("ERROR: unknown gate (" + label + ") of type " + type + ".");
@@ -60,13 +60,13 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
      * @returns SVG representation of measurement gate.
      */
     var _measure = function (x, qy, cy) {
-        x -= constants_1.minGateWidth / 2;
-        var width = constants_1.minGateWidth, height = constants_1.gateHeight;
+        x -= constants_js_1.minGateWidth / 2;
+        var width = constants_js_1.minGateWidth, height = constants_js_1.gateHeight;
         // Draw measurement box
-        var mBox = formatUtils_1.box(x, qy - height / 2, width, height);
-        var mArc = formatUtils_1.arc(x + 5, qy + 2, width / 2 - 5, height / 2 - 8);
-        var meter = formatUtils_1.line(x + width / 2, qy + 8, x + width - 8, qy - height / 2 + 8);
-        var svg = formatUtils_1.group(mBox, mArc, meter);
+        var mBox = formatUtils_js_1.box(x, qy - height / 2, width, height);
+        var mArc = formatUtils_js_1.arc(x + 5, qy + 2, width / 2 - 5, height / 2 - 8);
+        var meter = formatUtils_js_1.line(x + width / 2, qy + 8, x + width - 8, qy - height / 2 + 8);
+        var svg = formatUtils_js_1.group(mBox, mArc, meter);
         return svg;
     };
     exports._measure = _measure;
@@ -93,7 +93,7 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
         var regGroups = y.reduce(function (acc, currY) {
             // Registers are defined to be adjacent if they differ by registerHeight in their y coord
             // Raphael: Is there a better way of doing this? (i.e. split into y and heights in processInstructions)
-            if (acc.length === 0 || currY - prevY > constants_1.registerHeight)
+            if (acc.length === 0 || currY - prevY > constants_js_1.registerHeight)
                 acc.push([currY]);
             else
                 acc[acc.length - 1].push(currY);
@@ -103,13 +103,13 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
         // Render each group as a separate unitary boxes
         var unitaryBoxes = regGroups.map(function (group) {
             var maxY = group[group.length - 1], minY = group[0];
-            var height = maxY - minY + constants_1.gateHeight;
+            var height = maxY - minY + constants_js_1.gateHeight;
             return _unitaryBox(label, x, minY, width, height, argStr);
         });
         // Draw dashed line between disconnected unitaries
         if (renderDashedLine && unitaryBoxes.length > 1) {
             var maxY = y[y.length - 1], minY = y[0];
-            var vertLine = formatUtils_1.dashedLine(x, minY, x, maxY);
+            var vertLine = formatUtils_js_1.dashedLine(x, minY, x, maxY);
             return __spreadArrays([vertLine], unitaryBoxes).join('\n');
         }
         else
@@ -129,18 +129,18 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
      * @returns SVG representation of unitary box.
      */
     var _unitaryBox = function (label, x, y, width, height, argStr) {
-        if (height === void 0) { height = constants_1.gateHeight; }
-        y -= constants_1.gateHeight / 2;
-        var uBox = formatUtils_1.box(x - width / 2, y, width, height);
+        if (height === void 0) { height = constants_js_1.gateHeight; }
+        y -= constants_js_1.gateHeight / 2;
+        var uBox = formatUtils_js_1.box(x - width / 2, y, width, height);
         var labelY = y + height / 2 - ((argStr == null) ? 0 : 7);
-        var labelText = formatUtils_1.text(label, x, labelY);
+        var labelText = formatUtils_js_1.text(label, x, labelY);
         var elems = [uBox, labelText];
         if (argStr != null) {
             var argStrY = y + height / 2 + 8;
-            var argText = formatUtils_1.text(argStr, x, argStrY, constants_1.argsFontSize);
+            var argText = formatUtils_js_1.text(argStr, x, argStrY, constants_js_1.argsFontSize);
             elems.push(argText);
         }
-        var svg = formatUtils_1.group(elems);
+        var svg = formatUtils_js_1.group(elems);
         return svg;
     };
     /**
@@ -154,8 +154,8 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
     var _swap = function (x, targetsY) {
         // Get SVGs of crosses
         var crosses = targetsY.map(function (y) { return _cross(x, y); });
-        var vertLine = formatUtils_1.line(x, targetsY[0], x, targetsY[1]);
-        var svg = formatUtils_1.group(crosses, vertLine);
+        var vertLine = formatUtils_js_1.line(x, targetsY[0], x, targetsY[1]);
+        var svg = formatUtils_js_1.group(crosses, vertLine);
         return svg;
     };
     exports._swap = _swap;
@@ -169,8 +169,8 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
      */
     var _cross = function (x, y) {
         var radius = 8;
-        var line1 = formatUtils_1.line(x - radius, y - radius, x + radius, y + radius);
-        var line2 = formatUtils_1.line(x - radius, y + radius, x + radius, y - radius);
+        var line1 = formatUtils_js_1.line(x - radius, y - radius, x + radius, y + radius);
+        var line2 = formatUtils_js_1.line(x - radius, y + radius, x + radius, y - radius);
         return [line1, line2].join('\n');
     };
     /**
@@ -185,25 +185,25 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
         var type = metadata.type, x = metadata.x, controlsY = metadata.controlsY, targetsY = metadata.targetsY, label = metadata.label, argStr = metadata.argStr, width = metadata.width;
         // Get SVG for target gates
         switch (type) {
-            case constants_1.GateType.Cnot:
+            case constants_js_1.GateType.Cnot:
                 targetsY.forEach(function (y) { return targetGateSvgs.push(_oplus(x, y)); });
                 break;
-            case constants_1.GateType.Swap:
+            case constants_js_1.GateType.Swap:
                 targetsY.forEach(function (y) { return targetGateSvgs.push(_cross(x, y)); });
                 break;
-            case constants_1.GateType.ControlledUnitary:
+            case constants_js_1.GateType.ControlledUnitary:
                 targetGateSvgs.push(_unitary(label, x, targetsY, width, argStr, false));
                 break;
             default:
                 throw new Error("ERROR: Unrecognized gate: " + label + " of type " + type);
         }
         // Get SVGs for control dots
-        var controlledDotsSvg = controlsY.map(function (y) { return formatUtils_1.controlDot(x, y); });
+        var controlledDotsSvg = controlsY.map(function (y) { return formatUtils_js_1.controlDot(x, y); });
         // Create control lines
         var maxY = Math.max.apply(Math, __spreadArrays(controlsY, targetsY));
         var minY = Math.min.apply(Math, __spreadArrays(controlsY, targetsY));
-        var vertLine = formatUtils_1.line(x, minY, x, maxY);
-        var svg = formatUtils_1.group(vertLine, controlledDotsSvg, targetGateSvgs);
+        var vertLine = formatUtils_js_1.line(x, minY, x, maxY);
+        var svg = formatUtils_js_1.group(vertLine, controlledDotsSvg, targetGateSvgs);
         return svg;
     };
     exports._controlledGate = _controlledGate;
@@ -219,9 +219,9 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
     var _oplus = function (x, y, r) {
         if (r === void 0) { r = 15; }
         var circle = "<circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + r + "\" stroke=\"black\" fill=\"white\" stroke-width=\"1\"></circle>";
-        var vertLine = formatUtils_1.line(x, y - r, x, y + r);
-        var horLine = formatUtils_1.line(x - r, y, x + r, y);
-        var svg = formatUtils_1.group(circle, vertLine, horLine);
+        var vertLine = formatUtils_js_1.line(x, y - r, x, y + r);
+        var horLine = formatUtils_js_1.line(x - r, y, x + r, y);
+        var svg = formatUtils_js_1.group(circle, vertLine, horLine);
         return svg;
     };
     /**
@@ -233,7 +233,7 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
      * @returns SVG representation of gate.
      */
     var _classicalControlled = function (metadata, padding) {
-        if (padding === void 0) { padding = constants_1.classicalBoxPadding; }
+        if (padding === void 0) { padding = constants_js_1.classicalBoxPadding; }
         var x = metadata.x, controlsY = metadata.controlsY, targetsY = metadata.targetsY, width = metadata.width, children = metadata.children, htmlClass = metadata.htmlClass;
         var controlY = controlsY[0];
         if (htmlClass == null)
@@ -245,20 +245,20 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
         var childrenOne = (children != null) ? formatGates(children[1]) : '';
         childrenOne = "<g class=\"" + htmlClass + "-one\">\r\n" + childrenOne + "</g>";
         // Draw control button and attached dashed line to dashed box
-        var controlCircleX = x + constants_1.controlBtnRadius;
+        var controlCircleX = x + constants_js_1.controlBtnRadius;
         var controlCircle = _controlCircle(controlCircleX, controlY, htmlClass);
-        var lineY1 = controlY + constants_1.controlBtnRadius, lineY2 = controlY + constants_1.classicalRegHeight / 2;
-        var vertLine = formatUtils_1.dashedLine(controlCircleX, lineY1, controlCircleX, lineY2);
-        x += constants_1.controlBtnOffset;
-        var horLine = formatUtils_1.dashedLine(controlCircleX, lineY2, x, lineY2);
-        width = width - constants_1.controlBtnOffset + (padding - constants_1.classicalBoxPadding) * 2;
-        x += constants_1.classicalBoxPadding - padding;
-        var y = targetsY[0] - constants_1.gateHeight / 2 - padding;
-        var height = targetsY[1] - targetsY[0] + constants_1.gateHeight + padding * 2;
+        var lineY1 = controlY + constants_js_1.controlBtnRadius, lineY2 = controlY + constants_js_1.classicalRegHeight / 2;
+        var vertLine = formatUtils_js_1.dashedLine(controlCircleX, lineY1, controlCircleX, lineY2);
+        x += constants_js_1.controlBtnOffset;
+        var horLine = formatUtils_js_1.dashedLine(controlCircleX, lineY2, x, lineY2);
+        width = width - constants_js_1.controlBtnOffset + (padding - constants_js_1.classicalBoxPadding) * 2;
+        x += constants_js_1.classicalBoxPadding - padding;
+        var y = targetsY[0] - constants_js_1.gateHeight / 2 - padding;
+        var height = targetsY[1] - targetsY[0] + constants_js_1.gateHeight + padding * 2;
         // Draw dashed box around children gates
-        var box = formatUtils_1.dashedBox(x, y, width, height);
+        var box = formatUtils_js_1.dashedBox(x, y, width, height);
         // Display controlled operation in initial "unknown" state
-        var svg = formatUtils_1.group("<g class=\"" + htmlClass + "-group cls-control-unknown\">", horLine, vertLine, controlCircle, childrenZero, childrenOne, box, '</g>');
+        var svg = formatUtils_js_1.group("<g class=\"" + htmlClass + "-group cls-control-unknown\">", horLine, vertLine, controlCircle, childrenZero, childrenOne, box, '</g>');
         return svg;
     };
     exports._classicalControlled = _classicalControlled;
@@ -274,7 +274,7 @@ define(["require", "exports", "../constants", "./formatUtils"], function (requir
      * @returns SVG representation of control circle.
      */
     var _controlCircle = function (x, y, cls, r) {
-        if (r === void 0) { r = constants_1.controlBtnRadius; }
-        return "<g class=\"cls-control-btn " + cls + "\" onClick=\"toggleClassicalBtn('" + cls + "')\">\n<circle class=\"" + cls + "\" cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + r + "\" stroke=\"black\" stroke-width=\"1\"></circle>\n<text class=\"" + cls + " cls-control-text\" font-size=\"" + constants_1.labelFontSize + "\" font-family=\"Arial\" x=\"" + x + "\" y=\"" + y + "\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"black\">?</text>\n</g>";
+        if (r === void 0) { r = constants_js_1.controlBtnRadius; }
+        return "<g class=\"cls-control-btn " + cls + "\" onClick=\"toggleClassicalBtn('" + cls + "')\">\n<circle class=\"" + cls + "\" cx=\"" + x + "\" cy=\"" + y + "\" r=\"" + r + "\" stroke=\"black\" stroke-width=\"1\"></circle>\n<text class=\"" + cls + " cls-control-text\" font-size=\"" + constants_js_1.labelFontSize + "\" font-family=\"Arial\" x=\"" + x + "\" y=\"" + y + "\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"black\">?</text>\n</g>";
     };
 });

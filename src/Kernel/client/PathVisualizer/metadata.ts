@@ -1,4 +1,4 @@
-import { GateType } from "./constants";
+import { GateType } from "./constants.js";
 
 /**
  * Metadata used to store information pertaining to a given

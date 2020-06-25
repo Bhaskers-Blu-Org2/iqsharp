@@ -5,7 +5,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-define(["require", "exports", "./constants", "./register", "./utils"], function (require, exports, constants_1, register_1, utils_1) {
+define(["require", "exports", "./constants.js", "./register.js", "./utils.js"], function (require, exports, constants_js_1, register_js_1, utils_js_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -25,7 +25,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
         var alignedOps = _alignOps(groupedOps);
         // Maintain widths of each column to account for variable-sized gates
         var numColumns = Math.max.apply(Math, alignedOps.map(function (ops) { return ops.length; }));
-        var columnsWidths = new Array(numColumns).fill(constants_1.minGateWidth);
+        var columnsWidths = new Array(numColumns).fill(constants_js_1.minGateWidth);
         // Keep track of which ops are already seen to avoid duplicate rendering
         var visited = {};
         // Unique HTML class for each classically-controlled group of gates.
@@ -40,7 +40,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
                 }
                 var metadata = _opToMetadata(op, registers);
                 // Add HTML class attribute if classically controlled
-                if (metadata.type === constants_1.GateType.ClassicalControlled) {
+                if (metadata.type === constants_js_1.GateType.ClassicalControlled) {
                     _addClass(metadata, "cls-control-" + cls++);
                 }
                 // Expand column size, if needed
@@ -55,7 +55,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
         // Flatten operations and filter out null gates
         var metadataList = opsMetadata.flat().filter(function (_a) {
             var type = _a.type;
-            return type != constants_1.GateType.Null;
+            return type != constants_js_1.GateType.Null;
         });
         return { metadataList: metadataList, svgWidth: endX };
     };
@@ -78,7 +78,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
             var targets = _a.targets, controls = _a.controls;
             var qRegs = __spreadArrays(controls, targets).filter(function (_a) {
                 var type = _a.type;
-                return type === register_1.RegisterType.Qubit;
+                return type === register_js_1.RegisterType.Qubit;
             });
             var qRegIdxList = qRegs.map(function (_a) {
                 var qId = _a.qId;
@@ -86,7 +86,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
             });
             var clsControls = controls.filter(function (_a) {
                 var type = _a.type;
-                return type === register_1.RegisterType.Classical;
+                return type === register_js_1.RegisterType.Classical;
             });
             var isClassicallyControlled = clsControls.length > 0;
             // If operation is classically-controlled, pad all qubit registers. Otherwise, only pad
@@ -154,11 +154,11 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
      */
     var _getColumnsX = function (columnWidths) {
         var columnsX = new Array(columnWidths.length).fill(0);
-        var x = constants_1.startX;
+        var x = constants_js_1.startX;
         for (var i = 0; i < columnWidths.length; i++) {
             var width = columnWidths[i];
             columnsX[i] = x + width / 2;
-            x += width + constants_1.gatePadding * 2;
+            x += width + constants_js_1.gatePadding * 2;
         }
         return { columnsX: columnsX, svgWidth: x };
     };
@@ -174,12 +174,12 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
      */
     var _opToMetadata = function (op, registers) {
         var metadata = {
-            type: constants_1.GateType.Null,
+            type: constants_js_1.GateType.Null,
             x: 0,
             controlsY: [],
             targetsY: [],
             label: '',
-            width: constants_1.minGateWidth,
+            width: constants_js_1.minGateWidth,
         };
         if (op == null)
             return metadata;
@@ -198,11 +198,11 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
             var oneGates = childrenInstrs.metadataList;
             var oneChildWidth = childrenInstrs.svgWidth;
             // Subtract startX (left-side) and 2*gatePadding (right-side) from nested child gates width
-            var width = Math.max(zeroChildWidth, oneChildWidth) - constants_1.startX - constants_1.gatePadding * 2;
-            metadata.type = constants_1.GateType.ClassicalControlled;
+            var width = Math.max(zeroChildWidth, oneChildWidth) - constants_js_1.startX - constants_js_1.gatePadding * 2;
+            metadata.type = constants_js_1.GateType.ClassicalControlled;
             metadata.children = [zeroGates, oneGates];
             // Add additional width from control button and inner box padding for dashed box
-            metadata.width = width + constants_1.controlBtnOffset + constants_1.classicalBoxPadding * 2;
+            metadata.width = width + constants_js_1.controlBtnOffset + constants_js_1.classicalBoxPadding * 2;
             // Set targets to first and last quantum registers so we can render the surrounding box
             // around all quantum registers.
             var qubitsY = Object.values(registers).map(function (_a) {
@@ -212,18 +212,18 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
             metadata.targetsY = [Math.min.apply(Math, qubitsY), Math.max.apply(Math, qubitsY)];
         }
         else if (gate === 'measure') {
-            metadata.type = constants_1.GateType.Measure;
+            metadata.type = constants_js_1.GateType.Measure;
         }
         else if (gate === 'SWAP') {
-            metadata.type = constants_1.GateType.Swap;
+            metadata.type = constants_js_1.GateType.Swap;
         }
         else if (controlled) {
-            metadata.type = (gate === 'X') ? constants_1.GateType.Cnot : constants_1.GateType.ControlledUnitary;
+            metadata.type = (gate === 'X') ? constants_js_1.GateType.Cnot : constants_js_1.GateType.ControlledUnitary;
             metadata.label = gate;
         }
         else {
             // Any other gate treated as a simple unitary gate
-            metadata.type = constants_1.GateType.Unitary;
+            metadata.type = constants_js_1.GateType.Unitary;
             metadata.label = gate;
             if (argStr != null)
                 metadata.argStr = argStr;
@@ -232,7 +232,7 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
         if (adjoint && metadata.label.length > 0)
             metadata.label += "'";
         // Set gate width
-        metadata.width = utils_1.getGateWidth(metadata);
+        metadata.width = utils_js_1.getGateWidth(metadata);
         return metadata;
     };
     exports._opToMetadata = _opToMetadata;
@@ -250,9 +250,9 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
             throw new Error("ERROR: Qubit register with ID " + qId + " not found.");
         var _a = registers[qId], y = _a.y, children = _a.children;
         switch (type) {
-            case register_1.RegisterType.Qubit:
+            case register_js_1.RegisterType.Qubit:
                 return y;
-            case register_1.RegisterType.Classical:
+            case register_js_1.RegisterType.Classical:
                 if (children == null)
                     throw new Error("ERROR: No classical registers found for qubit ID " + qId + ".");
                 if (cId == null)
@@ -288,18 +288,18 @@ define(["require", "exports", "./constants", "./register", "./utils"], function 
      * @returns Rightmost x coord.
      */
     var _fillMetadataX = function (opsMetadata, columnWidths) {
-        var currX = constants_1.startX;
+        var currX = constants_js_1.startX;
         var colStartX = columnWidths.map(function (width) {
             var x = currX;
-            currX += width + constants_1.gatePadding * 2;
+            currX += width + constants_js_1.gatePadding * 2;
             return x;
         });
         var endX = currX;
         opsMetadata.forEach(function (regOps) { return regOps.forEach(function (metadata, col) {
             var x = colStartX[col];
-            if (metadata.type === constants_1.GateType.ClassicalControlled) {
+            if (metadata.type === constants_js_1.GateType.ClassicalControlled) {
                 // Subtract startX offset from nested gates and add offset and padding
-                var offset = x - constants_1.startX + constants_1.controlBtnOffset + constants_1.classicalBoxPadding;
+                var offset = x - constants_js_1.startX + constants_js_1.controlBtnOffset + constants_js_1.classicalBoxPadding;
                 // Offset each x coord in children gates
                 _offsetChildrenX(metadata.children, offset);
                 // We don't use the centre x coord because we only care about the rightmost x for

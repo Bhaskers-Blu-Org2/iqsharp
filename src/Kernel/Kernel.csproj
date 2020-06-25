@@ -29,7 +29,7 @@
   <ItemGroup>
     <EmbeddedResource Include="res\kernel.js" />
     <EmbeddedResource Include="res\telemetry.js" />
-    <EmbeddedResource Include="res\PathVisualizer\svg_circ.js" />
+    <EmbeddedResource Include="res\PathVisualizer\**\*.js" />
     <Content Include="tsconfig.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
