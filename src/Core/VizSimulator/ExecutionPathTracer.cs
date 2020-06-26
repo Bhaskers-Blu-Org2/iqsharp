@@ -7,7 +7,7 @@ using Microsoft.Quantum.Simulation.Core;
 
 namespace Microsoft.Quantum.IQSharp
 {
-    public class Circuitizer
+    public class ExecutionPathTracer
     {
         private int currDepth = 0;
         private int renderDepth;
@@ -15,7 +15,7 @@ namespace Microsoft.Quantum.IQSharp
         private IDictionary<int, List<ClassicalRegister>> classicalRegisters = new Dictionary<int, List<ClassicalRegister>>();
         private List<Instruction> instructions = new List<Instruction>();
 
-        public Circuitizer(int depth = 1) => this.renderDepth = depth + 1;
+        public ExecutionPathTracer(int depth = 1) => this.renderDepth = depth + 1;
 
         public ExecutionPath GetExecutionPath()
         {

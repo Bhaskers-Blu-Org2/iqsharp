@@ -78,14 +78,14 @@ namespace Microsoft.Quantum.IQSharp.Kernel
             var symbol = SymbolResolver.Resolve(name) as IQSharpSymbol;
             if (symbol == null) throw new InvalidOperationException($"Invalid operation name: {name}");
 
-            var circuitizer = new Circuitizer();
+            var tracer = new ExecutionPathTracer();
 
             using var qsim = new QuantumSimulator()
                 .WithJupyterDisplay(channel, ConfigurationSource)
                 .WithStackTraceDisplay(channel)
-                .WithCircuitizer(circuitizer);
+                .WithExecutionPathTracer(tracer);
             var value = await symbol.Operation.RunAsync(qsim, inputParameters);
-            var executionPath = circuitizer.GetExecutionPath();
+            var executionPath = tracer.GetExecutionPath();
 
             var content = new ExecutionPathVisualizerContent
             {

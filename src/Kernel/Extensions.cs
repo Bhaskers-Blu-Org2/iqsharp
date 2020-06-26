@@ -26,11 +26,11 @@ namespace Microsoft.Quantum.IQSharp.Kernel
             services.AddSingleton<IConfigurationSource, ConfigurationSource>();
         }
 
-        public static T WithCircuitizer<T>(this T sim, Circuitizer circuitizer)
+        public static T WithExecutionPathTracer<T>(this T sim, ExecutionPathTracer tracer)
             where T : SimulatorBase
         {
-            sim.OnOperationStart += circuitizer.OnOperationStartHandler;
-            sim.OnOperationEnd += circuitizer.OnOperationEndHandler;
+            sim.OnOperationStart += tracer.OnOperationStartHandler;
+            sim.OnOperationEnd += tracer.OnOperationEndHandler;
             return sim;
         }
     }
