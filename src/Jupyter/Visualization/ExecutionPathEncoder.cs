@@ -3,10 +3,13 @@ using Microsoft.Jupyter.Core;
 
 namespace Microsoft.Quantum.IQSharp.Jupyter
 {
+    public class ExecutionPathDisplayable
+    {
+        public string Id;
+    }
+
     public class ExecutionPathToHtmlEncoder : IResultEncoder
     {
-        private static int count = 0;
-
         /// <inheritdoc />
         public string MimeType => MimeTypes.Html;
 
@@ -16,17 +19,9 @@ namespace Microsoft.Quantum.IQSharp.Jupyter
         /// </summary>
         public EncodedData? Encode(object displayable)
         {
-            if (displayable is ExecutionPath path)
+            if (displayable is ExecutionPathDisplayable dis)
             {
-                var id = $"container-{count}";
-                var script = $@"
-                    <div id='{id}' />
-                    <script>
-                        window.jsonToHtmlEncoder.render({path.ToJson()}, '{id}');
-                    </script>
-                ";
-                count++;
-
+                var script = $"<div id='{dis.Id}' />";
                 return script.ToEncodedData();
             }
             else return null;

@@ -38,8 +38,24 @@ define(["require", "exports", "./formatters/inputFormatter.js", "./formatters/ga
             };
             this.render = function (json, id) {
                 var html = _this.jsonToHtml(json);
-                var container = document.getElementById(id);
-                container.innerHTML = html;
+                // Wait for container to be ready before populating it with circuit
+                var observer = new MutationObserver(function (mutations, observer) {
+                    for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
+                        var mutation = mutations_1[_i];
+                        if (mutation.addedNodes == null || mutation.addedNodes.length === 0)
+                            continue;
+                        var container = document.getElementById(id);
+                        if (container != null) {
+                            container.innerHTML = html;
+                            observer.disconnect();
+                        }
+                        return;
+                    }
+                });
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
             };
         }
         return JsonToHtmlEncoder;
